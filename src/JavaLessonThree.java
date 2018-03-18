@@ -81,7 +81,5 @@ public class JavaLessonThree {
 			System.out.println("You failed");
 			break;
 		}
-		
 	}
-
 }
