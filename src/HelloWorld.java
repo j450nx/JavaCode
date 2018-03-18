@@ -1,5 +1,3 @@
-package lessons;
-
 public class HelloWorld {
 	
 	static String randomString = "I'm a string";
