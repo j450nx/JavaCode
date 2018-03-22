@@ -28,7 +28,7 @@ public class MonsterTwo {
 		
 		for(int i = 0; i < battleBoard.length; i++) {
 			for (int j = 0; j < battleBoard[i].length; j++){
-				System.out.println("|" + battleBoard[i][j] + "|");
+				System.out.print("|" + battleBoard[i][j] + "|");
 			}
 			System.out.println();
 		}
