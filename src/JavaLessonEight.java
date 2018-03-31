@@ -33,7 +33,7 @@ public class JavaLessonEight {
 		
 		char[][] tempBattleBoard = new char[10][10];
 		
-		// ObjectName[] arrayName = new ObjectName[4];
+		// ObjectName[] ArrayName = new ObjectName[4];
 		
 		MonsterTwo[] Monsters = new MonsterTwo[4];
 		
