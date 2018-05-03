@@ -9,7 +9,7 @@ public class Vehicle extends Crashable implements Drivable, Cloneable{
 		return this.numOfWheels;
 	};
 	
-	public void setWheel(int numWheels) {
+	public void setWheel(int numOfWheels) {
 		this.numOfWheels = numOfWheels;
 	};
 	
