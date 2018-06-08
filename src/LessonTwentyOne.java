@@ -82,7 +82,6 @@ public class LessonTwentyOne extends JFrame{
         // How to add a text field ----------------------
         
         textField1 = new JTextField("Type Here", 15);
-        textField1.requestFocusInWindow();
         
         ListenForKeys lForKeys = new ListenForKeys();
         
@@ -130,7 +129,11 @@ public class LessonTwentyOne extends JFrame{
         
         ListenForFocus lForFocus = new ListenForFocus();
         
-        thePanel.addFocusListener(lForFocus);
+        button1.addFocusListener(lForFocus);
+        button2.addFocusListener(lForFocus);
+        textField1.addFocusListener(lForFocus);
+        textArea1.addFocusListener(lForFocus);
+        textField1.requestFocus();
         
     }
     
