@@ -107,15 +107,13 @@ public class Main {
 	}
 	
 	public static int[] twoSum(int[] nums, int target) {
-		Map<Integer, Integer> map = new HashMap<>();
-		for (int i = 0; i < nums.length; i++) {
-			map.put(nums[i], i);
-		}
+		Map<Integer, Integer> numMap = new HashMap<>();
 		for (int i = 0; i < nums.length; i++) {
 			int complement = target - nums[i];
-			if(map.containsKey(complement) && map.get(complement) != i) {
-				return new int[] {i, map.get(complement)};
+			if (numMap.containsKey(complement)) {
+				return new int[] {numMap.get(complement), i};
 			}
+			numMap.put(nums[i], i);
 		}
 		return null;
 	}
@@ -323,6 +321,54 @@ public class Main {
 		}
 		return "";
 	}
+	
+	public static int coinChange(int[] coins, int amount) {
+	      if (amount < 1) return 0;
+	      
+	      int[] dp = new int[amount+1];
+	      Arrays.fill(dp, amount+1);
+	      dp[0] = 0;
+	      
+	      for (int coin : coins){
+	          for (int i = coin; i <= amount; i++){
+	        	  dp[i] = Math.min(dp[i], dp[i-coin]+1);
+	          }
+	      }
+	      return dp[amount] == amount+1 ? -1 : dp[amount];
+	  }
+	
+	/*
+	We can regard this quesiton as :
+	a+b+c+min(difference) ? target
+	sum = a+b+c
+	then we transferred the question sucessfully as Two Pointers.
+	
+	So what we need now is the minimum diff and return sum(which is target - diff) at last
+	Watch out that diff could be both positive and negative, thus just comparing diff is meaningless.
+	We can slove this by updating the diff original value IFF its absolute value smaller.
+	 */
+	
+	public static int threeSumClosest(int[] nums, int target) {
+		Arrays.sort(nums);
+		int result = nums[0] + nums[1] + nums[nums.length - 1];
+		for (int i = 0; i < nums.length; i++) {
+			int left = i + 1;
+			int right = nums.length - 1;
+			
+			while (left < right) {
+				int current_sum = nums[i] + nums[left] + nums[right];
+				if (current_sum > target) {
+					right--;
+				} else {
+					left++;
+				}
+				if (Math.abs(target - current_sum) < Math.abs(result - target)) {
+					result = current_sum;
+				}
+			}
+		}
+		return result;
+	}
 
 	public static void main(String[] args) {
 //		System.out.println(isPalindrome("noon"));
@@ -331,9 +377,8 @@ public class Main {
 //		System.out.println(firstMissingPositive(nums));
 //		System.out.println(reverseWords("The sky is blue"));
 //		System.out.println(reverse("The sky is blue"));
-//		int[] nums = {5, 5, 6, 7};
-//		int[] result = twoSum(nums, 11);
-//		System.out.println(Arrays.toString(result));
+		int[] result = twoSum(new int[] {4, 5, 6, 7}, 11);
+		System.out.println(Arrays.toString(result));
 //		System.out.println(randomRange(1, 3));
 //		System.out.println(factorial(5));
 //		System.out.println(factorialWithRecursion(3));
@@ -364,7 +409,8 @@ public class Main {
 //		System.out.println(searchAndReplace("A quick brown fox Jumped over the lazy dog", "Jumped", "leaped"));
 //		System.out.println(pairElement("AATGCG"));
 //		System.out.println(fearNotLetter("abde"));
-		
+//		System.out.println(coinChange(new int[] {5, 2, 1}, 11));
+//		System.out.println(threeSumClosest(new int[]{1,2,3,4,5}, 3));
 		
 /*	
 		// HashSets are unordered, unique numbers
