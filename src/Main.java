@@ -106,17 +106,6 @@ public class Main {
 		return str;
 	}
 	
-	public static int[] twoSum(int[] nums, int target) {
-		Map<Integer, Integer> numMap = new HashMap<>();
-		for (int i = 0; i < nums.length; i++) {
-			int complement = target - nums[i];
-			if (numMap.containsKey(complement)) {
-				return new int[] {numMap.get(complement), i};
-			}
-			numMap.put(nums[i], i);
-		}
-		return null;
-	}
 	
 	public static int randomRange (int min, int max) {
 		return (int) Math.floor(Math.random() * (max - min) + min);
@@ -322,19 +311,32 @@ public class Main {
 		return "";
 	}
 	
+	public static int[] twoSum(int[] nums, int target) {
+		Map<Integer, Integer> numMap = new HashMap<>();
+		for (int i = 0; i < nums.length; i++) {
+			int complement = target - nums[i];
+			if (numMap.containsKey(complement)) {
+				return new int[] {numMap.get(complement), i};
+			}
+			numMap.put(nums[i], i);
+		}
+		return null;
+	}
+	
 	public static int coinChange(int[] coins, int amount) {
-	      if (amount < 1) return 0;
-	      
-	      int[] dp = new int[amount+1];
-	      Arrays.fill(dp, amount+1);
-	      dp[0] = 0;
-	      
-	      for (int coin : coins){
-	          for (int i = coin; i <= amount; i++){
-	        	  dp[i] = Math.min(dp[i], dp[i-coin]+1);
-	          }
-	      }
-	      return dp[amount] == amount+1 ? -1 : dp[amount];
+		
+	    int[]dp = new int[amount + 1];
+	    Arrays.fill(dp, amount + 1);
+	    dp[0] = 0;
+	    
+	    for (int i = 0; i <= amount; i++) {
+	    	for (int j = 0; j < coins.length; j++) {
+	    		if (coins[j] <= i) {
+	    			dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+	    		}
+	    	}
+	    }
+	    return dp[amount] > amount ? -1 : dp[amount];
 	  }
 	
 	/*
@@ -351,7 +353,7 @@ public class Main {
 	public static int threeSumClosest(int[] nums, int target) {
 		Arrays.sort(nums);
 		int result = nums[0] + nums[1] + nums[nums.length - 1];
-		for (int i = 0; i < nums.length; i++) {
+		for (int i = 0; i < nums.length - 2; i++) {
 			int left = i + 1;
 			int right = nums.length - 1;
 			
@@ -362,13 +364,82 @@ public class Main {
 				} else {
 					left++;
 				}
-				if (Math.abs(target - current_sum) < Math.abs(result - target)) {
+				if (Math.abs(current_sum - target) < Math.abs(result - target)) {
 					result = current_sum;
 				}
 			}
 		}
 		return result;
 	}
+	
+	public static int reverseInteger(int x) {
+        int reversed = 0;
+        while (x != 0) {
+            int pop = x % 10;
+            x /= 10;
+            if (reversed > Integer.MAX_VALUE/10 || (reversed == Integer.MAX_VALUE / 10 && pop > 7)) return 0;
+            if (reversed < Integer.MIN_VALUE/10 || (reversed == Integer.MIN_VALUE / 10 && pop < -8)) return 0;
+            reversed = reversed * 10 + pop;
+        }
+        return reversed;
+    }
+	
+	public static boolean palindromeNumber(int x) {
+		if (x == 0) return true;
+		if (x < 0 || (x != 0 && x % 10 == 0)) return false;
+		
+		int reversed = 0;
+		while (x > reversed) {
+			int pop = x % 10;
+			x /= 10;
+			reversed = reversed * 10 + pop;
+		}
+		if (x == reversed) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static int romanToInt(String s) {
+		if ( s == null || s.length() == 0) return 0;
+        
+        Map<Character, Integer> map = new HashMap<>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+        
+        int result = map.get(s.charAt(s.length() - 1));
+        
+        for (int i = s.length() - 2; i >= 0; i--) {
+        	if (map.get(s.charAt(i)) >= map.get(s.charAt(i + 1))) {
+        		result += map.get(s.charAt(i));
+        	} else {
+        		result -= map.get(s.charAt(i));
+        	}
+        }
+		return result;
+	}
+	
+	public static String intToRoman(int num) {
+        int[] intCode = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] code = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        
+        StringBuilder sb = new StringBuilder();
+        
+        for (int i = 0; i < intCode.length; i++) {
+            while (num>= intCode[i]) {
+                sb.append(code[i]);
+                num -= intCode[i];
+            }
+        }
+        return sb.toString();
+    }
+		
 
 	public static void main(String[] args) {
 //		System.out.println(isPalindrome("noon"));
@@ -377,8 +448,6 @@ public class Main {
 //		System.out.println(firstMissingPositive(nums));
 //		System.out.println(reverseWords("The sky is blue"));
 //		System.out.println(reverse("The sky is blue"));
-		int[] result = twoSum(new int[] {4, 5, 6, 7}, 11);
-		System.out.println(Arrays.toString(result));
 //		System.out.println(randomRange(1, 3));
 //		System.out.println(factorial(5));
 //		System.out.println(factorialWithRecursion(3));
@@ -409,8 +478,15 @@ public class Main {
 //		System.out.println(searchAndReplace("A quick brown fox Jumped over the lazy dog", "Jumped", "leaped"));
 //		System.out.println(pairElement("AATGCG"));
 //		System.out.println(fearNotLetter("abde"));
-//		System.out.println(coinChange(new int[] {5, 2, 1}, 11));
-//		System.out.println(threeSumClosest(new int[]{1,2,3,4,5}, 3));
+		// leetcode
+		System.out.println(Arrays.toString(twoSum(new int[] {4, 5, 6, 7}, 11)));
+		System.out.println(coinChange(new int[] {1, 2, 5}, 11));
+		System.out.println(threeSumClosest(new int[]{1,2,3,4,5}, 3));
+//		System.out.println(reverseInteger(12314));
+//		System.out.println(palindromeNumber(121));
+		System.out.println(romanToInt("IV"));
+		System.out.println(intToRoman(2944));
+		
 		
 /*	
 		// HashSets are unordered, unique numbers
