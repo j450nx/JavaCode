@@ -336,6 +336,13 @@ public class Main {
 	    		}
 	    	}
 	    }
+	    
+//	    for (int coin : coins) {
+//	    	for (int i = coin; i <= amount; i++) {
+//	    		dp[i] = Math.min(dp[i], 1 + dp[i - coin]);
+//	    	}
+//	    }
+	    
 	    return dp[amount] > amount ? -1 : dp[amount];
 	  }
 	
