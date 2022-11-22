@@ -2,9 +2,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 import javax.xml.stream.events.Characters;
 
@@ -323,6 +325,22 @@ public class Main {
 		return null;
 	}
 	
+	public static int[] twoSum2(int[] nums, int target) {
+		int left = 0;
+		int right = nums.length - 1;
+		while (left < right) {
+			int current_sum = nums[left] + nums[right];
+			if (current_sum > target) {
+				right--;
+			} else if (current_sum < target) {
+				left++;
+			} else {
+				return new int[] {left + 1, right + 1};
+			}
+		}
+		return null;
+	}
+	
 	public static int coinChange(int[] coins, int amount) {
 		
 	    int[]dp = new int[amount + 1];
@@ -446,8 +464,40 @@ public class Main {
         }
         return sb.toString();
     }
-		
-
+	
+	public static String longestCommonPrefix(String[] strs) {
+		if (strs.length == 0) return "";
+		// assign the first str as the prefix and compare it with the rest of the array
+		// slowly pop letters off until the prefix exists in all the strs
+		String prefix = strs[0];
+		for (int i = 1; i < strs.length; i++) {
+			while (strs[i].indexOf(prefix) != 0) {
+				prefix = prefix.substring(0, prefix.length() - 1);
+			}
+		}
+		return prefix;
+	}
+	
+	public static boolean isValid(String s) {
+        if (s.length() % 2 != 0) return false;
+        
+		Stack<Character> stack = new Stack<>();
+		for (char c : s.toCharArray()) {
+			if (c == '(' || c == '{' || c == '[') {
+				stack.push(c);
+			} else if (!stack.isEmpty() && c == ')' && stack.peek() == '(') {
+				stack.pop();
+			} else if (!stack.isEmpty() && c == ']' && stack.peek() == '[') {
+				stack.pop();
+			} else if (!stack.isEmpty() && c == '}' && stack.peek() == '{') {
+				stack.pop();
+			} else {
+				return false;
+			}
+		}
+		return stack.isEmpty();
+	}
+	
 	public static void main(String[] args) {
 //		System.out.println(isPalindrome("noon"));
 //		System.out.println(binaryGap(529));
@@ -487,12 +537,15 @@ public class Main {
 //		System.out.println(fearNotLetter("abde"));
 		// leetcode
 		System.out.println(Arrays.toString(twoSum(new int[] {4, 5, 6, 7}, 11)));
+		System.out.println(Arrays.toString(twoSum2(new int[] {4, 5, 6, 7}, 12)));
 		System.out.println(coinChange(new int[] {1, 2, 5}, 11));
 		System.out.println(threeSumClosest(new int[]{1,2,3,4,5}, 3));
 //		System.out.println(reverseInteger(12314));
 //		System.out.println(palindromeNumber(121));
 		System.out.println(romanToInt("IV"));
 		System.out.println(intToRoman(2944));
+		System.out.println(longestCommonPrefix(new String[] {"flower", "flow", "flight"}));
+		System.out.println(isValid("([}}])"));
 		
 		
 /*	
