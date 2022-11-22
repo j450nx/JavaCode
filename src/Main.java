@@ -498,6 +498,34 @@ public class Main {
 		return stack.isEmpty();
 	}
 	
+	public static int removeDuplicates(int[] nums) {
+        // indexes start at 1 since index[0] is unique
+        int index = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i - 1] != nums[i]) {
+                nums[index] = nums[i];
+                index++;
+            }
+        }
+        return index;
+    }
+	
+	public static int lengthOfLastWord(String s) {
+//		s = s.trim();
+//        int lastIndex = s.lastIndexOf(' ') + 1;
+//        return s.length() - lastIndex;
+		
+		int length = 0;
+		for (int i = s.length() - 1; i >= 0; i--) {
+			if (s.charAt(i) != ' ') {
+				length++;
+			} else {
+				if (length > 0) return length;
+			}
+		}
+		return length;
+    }
+
 	public static void main(String[] args) {
 //		System.out.println(isPalindrome("noon"));
 //		System.out.println(binaryGap(529));
@@ -546,7 +574,8 @@ public class Main {
 		System.out.println(intToRoman(2944));
 		System.out.println(longestCommonPrefix(new String[] {"flower", "flow", "flight"}));
 		System.out.println(isValid("([}}])"));
-		
+		System.out.println(removeDuplicates(new int[] {1, 2, 3, 3, 4}));
+		System.out.println(lengthOfLastWord(" Hello world  "));
 		
 /*	
 		// HashSets are unordered, unique numbers
